@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addContact, deleteContact } from './contacts-actions';
 
-import initialContacts from 'data/contacts.json';
+//import initialContacts from 'data/contacts.json';
 
 export const contactsReducer = createReducer([], builder => {
   builder
