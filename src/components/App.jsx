@@ -15,7 +15,7 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 
 // redux
-import { addContact, deleteContact } from 'redux/contacts/contacts-actions';
+import { addContact, deleteContact } from 'redux/contacts/contacts-slice';
 import { setFilter } from 'redux/filter/filter-actions';
 import { getFilter } from 'redux/filter/filter-selectors';
 import {
