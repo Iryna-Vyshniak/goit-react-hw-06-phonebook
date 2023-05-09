@@ -11,7 +11,7 @@ import { theme } from 'styles/theme';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
         <ThemeProvider theme={theme}>
           <App />
         </ThemeProvider>

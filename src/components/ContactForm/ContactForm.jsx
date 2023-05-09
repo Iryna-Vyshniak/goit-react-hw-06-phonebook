@@ -1,7 +1,16 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import 'yup-phone';
+
+// toastify
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toastifyOptions } from 'utils/toastifyOptions';
+
+// redux
+import { addContact } from 'redux/contacts/contacts-slice';
+import { getContacts } from 'redux/contacts/contacts-selectors';
 
 import { BsFillTelephoneFill, BsPersonFill } from 'react-icons/bs';
 import { IoMdPersonAdd } from 'react-icons/io';
@@ -38,7 +47,33 @@ const schema = yup.object().shape({
 
 const initialValues = { name: '', number: '' };
 
-export const ContactForm = ({ onAddContact }) => {
+export const ContactForm = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  const isDublicate = ({ name, number }) => {
+    const normalizedName = name.toLowerCase().trim();
+    const normalizedNumber = number.trim();
+
+    const dublicate = contacts.find(
+      contact =>
+        contact.name.toLowerCase().trim() === normalizedName ||
+        contact.number.trim() === normalizedNumber
+    );
+    return Boolean(dublicate);
+  };
+
+  const onAddContact = ({ name, number }) => {
+    if (isDublicate({ name, number })) {
+      return toast.error(
+        `This contact is already in contacts`,
+        toastifyOptions
+      );
+    }
+    dispatch(addContact({ name, number }));
+    // const action = addContact({ name, number });
+    // dispatch(action);
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -54,7 +89,7 @@ export const ContactForm = ({ onAddContact }) => {
             <BsPersonFill />
             <LabelSpan>Name</LabelSpan>
           </LabelWrapper>
-          <FieldFormik type="text" name="name" placeholder="Your name" />
+          <FieldFormik type="text" name="name" placeholder="Name" />
           <ErrorMessage name="name" component="span" />
         </FormField>
         <FormField>

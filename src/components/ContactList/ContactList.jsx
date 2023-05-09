@@ -1,18 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { IoPersonRemove } from 'react-icons/io5';
 import { Btn, Item, List } from './ContactList.styled';
 
-export const ContactList = ({ contacts, onDelete }) => {
-  //console.log(contacts);
+// redux
+import { deleteContact } from 'redux/contacts/contacts-slice';
+import { getFilteredContacts } from 'redux/contacts/contacts-selectors';
+
+export const ContactList = () => {
+  const filteredContacts = useSelector(getFilteredContacts);
+
+  const dispatch = useDispatch();
+
+  const onDeleteContact = contactId => {
+    dispatch(deleteContact(contactId));
+  };
+
   return (
     <List>
-      {contacts.map(({ name, number, id }) => {
+      {filteredContacts.map(({ name, number, id }) => {
         return (
           <Item key={id}>
             <span>{name}:</span>
             <span>{number}</span>
-            <Btn type="button" onClick={() => onDelete(id)}>
+            <Btn type="button" onClick={() => onDeleteContact(id)}>
               <IoPersonRemove size="14" />
             </Btn>
           </Item>
@@ -20,15 +31,4 @@ export const ContactList = ({ contacts, onDelete }) => {
       })}
     </List>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }).isRequired
-  ),
-  onDelete: PropTypes.func.isRequired,
 };
