@@ -14,7 +14,6 @@ import { getContacts } from 'redux/contacts/contacts-selectors';
 
 import { BsFillTelephoneFill, BsPersonFill } from 'react-icons/bs';
 import { IoMdPersonAdd } from 'react-icons/io';
-import PropTypes from 'prop-types';
 
 import {
   Form,
@@ -111,9 +110,4 @@ export const ContactForm = () => {
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propType = {
-  onSubmit: PropTypes.func.isRequired,
-  onAddContact: PropTypes.func.isRequired,
 };
