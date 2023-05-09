@@ -1,15 +1,17 @@
-import { ADD_CONTACT, DELETE_CONTACT } from './contacts-types';
+import { createReducer } from '@reduxjs/toolkit';
+import { addContact, deleteContact } from './contacts-actions';
+
 import initialContacts from 'data/contacts.json';
 
-const initialState = initialContacts;
-
-export const contactsReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case ADD_CONTACT:
+export const contactsReducer = createReducer([], builder => {
+  builder
+    .addCase(addContact, (state, { payload }) => {
+      // 1st variant => library protect mutation
+      //  state.push(payload); // => return [...state, payload];
+      // 2nd variant
       return [...state, payload];
-    case DELETE_CONTACT:
+    })
+    .addCase(deleteContact, (state, { payload }) => {
       return state.filter(contact => contact.id !== payload);
-    default:
-      return state;
-  }
-};
+    });
+});
