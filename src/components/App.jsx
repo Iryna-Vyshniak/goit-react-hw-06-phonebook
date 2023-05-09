@@ -44,7 +44,10 @@ export const App = () => {
 
   const onAddContact = ({ name, number }) => {
     if (isDublicate({ name, number })) {
-      return toast.error(`${name}: is already in contacts`, toastifyOptions);
+      return toast.error(
+        `This contact is already in contacts`,
+        toastifyOptions
+      );
     }
     dispatch(addContact({ name, number }));
     // const action = addContact({ name, number });
